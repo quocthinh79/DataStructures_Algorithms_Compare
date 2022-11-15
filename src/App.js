@@ -3,6 +3,7 @@ import SortComponent from "./component/sort/SortComponent";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import SearchComponent from "./component/search/SearchComponent";
 import Array from "./array/Array";
+import LinkedListWithArrayComponent from "./component/linkedListWithArray/LinkedListWithArrayComponent";
 
 const {
   LinkedList,
@@ -211,12 +212,24 @@ function App() {
             >
               Search
             </Link>
+            <Link
+              to={`/linked-list-with-array`}
+              className="btn btn-primary me-md-2"
+              type="button"
+            >
+              Linked List With Array
+            </Link>
           </div>
         </div>
         <Routes>
           <Route exact path="/" element={<></>}></Route>
           <Route exact path="/sort" element={<SortComponent />}></Route>
           <Route exact path="/search" element={<SearchComponent />}></Route>
+          <Route
+            exact
+            path="/linked-list-with-array"
+            element={<LinkedListWithArrayComponent />}
+          ></Route>
         </Routes>
       </Router>
     </div>

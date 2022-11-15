@@ -7,8 +7,17 @@ export default class Array {
     return this.data[index];
   }
   push(element) {
-    this.data[this.length] = element;
-    this.length++;
+    let result = [];
+    result.length = this.length++;
+    for (let i = 0; i < this.length; i++) {
+      if (this.data[i]) {
+        result[i] = this.data[i];
+      }
+    }
+    result[result.length] = element;
+    this.data = result;
+    // this.data[this.length] = element;
+    // this.length++;
     return this.length;
   }
   pop() {
