@@ -23,6 +23,10 @@ function SortComponent() {
   const [arrayTH4, setArrayTH4] = useState(new Array());
   const [elapsedArrayTH4, setElapsedArrayTH4] = useState("");
 
+  const arrayTempTH5 = new Array();
+  const [arrayTH5, setArrayTH5] = useState(new Array());
+  const [elapsedArrayTH5, setElapsedArrayTH5] = useState("");
+
   // Selection sort array
   const arrayTempSelectionSortTH1 = new Array();
   const [arraySelectionSortTH1, setArraySelectionSortTH1] = useState(
@@ -52,6 +56,13 @@ function SortComponent() {
   const [elapsedArraySelectionSortTH4, setElapsedArraySelectionSortTH4] =
     useState("");
 
+  const arrayTempSelectionSortTH5 = new Array();
+  const [arraySelectionSortTH5, setArraySelectionSortTH5] = useState(
+    new Array()
+  );
+  const [elapsedArraySelectionSortTH5, setElapsedArraySelectionSortTH5] =
+    useState("");
+
   // Merge sort array
   const arrayMergeSortTempTH1 = new Array();
   const [arrayMergeSortTH1, setArrayMergeSortTH1] = useState(new Array());
@@ -69,6 +80,10 @@ function SortComponent() {
   const [arrayMergeSortTH4, setArrayMergeSortTH4] = useState(new Array());
   const [elapsedArrayMergeSortTH4, setElapsedArrayMergeSortTH4] = useState("");
 
+  const arrayMergeSortTempTH5 = new Array();
+  const [arrayMergeSortTH5, setArrayMergeSortTH5] = useState(new Array());
+  const [elapsedArrayMergeSortTH5, setElapsedArrayMergeSortTH5] = useState("");
+
   useEffect(() => {
     axios
       .get("https://jsonplaceholder.typicode.com/photos")
@@ -85,21 +100,40 @@ function SortComponent() {
           response.data.forEach((item, index) => {
             arrayTempTH1.push(item);
             arrayTempTH2.push(item);
+            arrayTempTH5.push(item);
             arrayTempSelectionSortTH1.push(item);
             arrayTempSelectionSortTH2.push(item);
+            arrayTempSelectionSortTH5.push(item);
             arrayMergeSortTempTH1.push(item);
             arrayMergeSortTempTH2.push(item);
+            arrayMergeSortTempTH5.push(item);
           });
         }
         setArrayTH1(mergeSortTang(arrayTempTH1));
         setArrayTH2(mergeSortTang(arrayTempTH2));
         setArrayTH3(arrayTempTH3);
+        const th5Tang = mergeSortTang(arrayTempTH5);
+        const slice1 = th5Tang.slice(0, 49000);
+        const slice2 = mergeSortGiam(th5Tang.slice(49000, 50000));
+        setArrayTH5(slice1.concat(slice2));
+        
         setArraySelectionSortTH1(mergeSortTang(arrayTempSelectionSortTH1));
         setArraySelectionSortTH2(mergeSortTang(arrayTempSelectionSortTH2));
         setArraySelectionSortTH3(arrayTempSelectionSortTH3);
+        const th5TangSelection = mergeSortTang(arrayTempSelectionSortTH5);
+        const slice1Selection = th5TangSelection.slice(0, 49000);
+        const slice2Selection = mergeSortGiam(
+          th5TangSelection.slice(49000, 50000)
+        );
+        setArraySelectionSortTH5(slice1Selection.concat(slice2Selection));
+
         setArrayMergeSortTH1(mergeSortTang(arrayMergeSortTempTH1));
         setArrayMergeSortTH2(mergeSortTang(arrayMergeSortTempTH2));
         setArrayMergeSortTH3(arrayMergeSortTempTH3);
+        const th5TangMerge = mergeSortTang(arrayMergeSortTempTH5);
+        const slice1Merge = th5TangMerge.slice(0, 49000);
+        const slice2Merge = mergeSortGiam(th5TangMerge.slice(49000, 50000));
+        setArrayMergeSortTH5(slice1Merge.concat(slice2Merge));
 
         setPhotoApi(response.data);
       })
@@ -263,6 +297,12 @@ function SortComponent() {
         setElapsedArrayTH3(window.performance.now() - startArrayTH3);
       }
 
+      if (arrayTH5.length > 0) {
+        var startArrayTH5 = window.performance.now();
+        bubbleSortArray(arrayTH5, "TANGDAN");
+        setElapsedArrayTH5(window.performance.now() - startArrayTH5);
+      }
+
       // Selection sort array
       if (arraySelectionSortTH1.length > 0) {
         var startArraySelectionSortTH1 = window.performance.now();
@@ -288,6 +328,14 @@ function SortComponent() {
         );
       }
 
+      if (arraySelectionSortTH5.length > 0) {
+        var startArraySelectionSortTH5 = window.performance.now();
+        selectionSortArray(arraySelectionSortTH5, "TANGDAN");
+        setElapsedArraySelectionSortTH5(
+          window.performance.now() - startArraySelectionSortTH5
+        );
+      }
+
       // Merge sort array
       if (arrayMergeSortTH1.length > 0) {
         var startArrayMergeSortTH1 = window.performance.now();
@@ -310,6 +358,14 @@ function SortComponent() {
         mergeSortTang(arrayMergeSortTH3);
         setElapsedArrayMergeSortTH3(
           window.performance.now() - startArrayMergeSortTH3
+        );
+      }
+
+      if (arrayMergeSortTH5.length > 0) {
+        var startArrayMergeSortTH5 = window.performance.now();
+        mergeSortTang(arrayMergeSortTH5);
+        setElapsedArrayMergeSortTH5(
+          window.performance.now() - startArrayMergeSortTH5
         );
       }
     }
@@ -376,6 +432,12 @@ function SortComponent() {
           <tr>
             <td>Array</td>
             <td>Bubble Sort</td>
+            <td>Sắp xếp một mảng gần như đã được sắp xếp (id) - 50000 item</td>
+            <td>{elapsedArrayTH5}</td>
+          </tr>
+          <tr>
+            <td>Array</td>
+            <td>Bubble Sort</td>
             <td>Sắp xếp một mảng từ tăng dần thành nhỏ dần (id) - 10 item</td>
             <td>{elapsedArrayTH4}</td>
           </tr>
@@ -415,6 +477,12 @@ function SortComponent() {
           <tr>
             <td>Array</td>
             <td>Selection Sort</td>
+            <td>Sắp xếp một mảng gần như đã được sắp xếp (id) - 50000 item</td>
+            <td>{elapsedArraySelectionSortTH5}</td>
+          </tr>
+          <tr>
+            <td>Array</td>
+            <td>Selection Sort</td>
             <td>Sắp xếp một mảng từ tăng dần thành nhỏ dần (id) - 10 item</td>
             <td>{elapsedArraySelectionSortTH4}</td>
           </tr>
@@ -450,6 +518,12 @@ function SortComponent() {
             <td>Merge Sort</td>
             <td>Sắp xếp một mảng đã bị xáo trộn (id) - 50000 item</td>
             <td>{elapsedArrayMergeSortTH3}</td>
+          </tr>
+          <tr>
+            <td>Array</td>
+            <td>Merge Sort</td>
+            <td>Sắp xếp một mảng gần như đã được sắp xếp (id) - 50000 item</td>
+            <td>{elapsedArrayMergeSortTH5}</td>
           </tr>
           <tr>
             <td>Array</td>

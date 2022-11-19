@@ -16,6 +16,12 @@ function SearchComponent() {
     new BinarySearchTreeMy()
   );
 
+  const mapTemp = new Map();
+  const [map, setMap] = useState(new Map());
+
+  const mapTemp1 = new Map();
+  const [map1, setMap1] = useState(new Map());
+
   const [elapsedDfsTH1, setElapsedDfsTH1] = useState("");
   const [elapsedDfsTH2, setElapsedDfsTH2] = useState("");
   const [elapsedDfsTH3, setElapsedDfsTH3] = useState("");
@@ -23,6 +29,14 @@ function SearchComponent() {
   const [elapsedBfsTH1, setElapsedBfsTH1] = useState("");
   const [elapsedBfsTH2, setElapsedBfsTH2] = useState("");
   const [elapsedBfsTH3, setElapsedBfsTH3] = useState("");
+
+  const [elapsedMapTH1, setElapsedMapTH1] = useState("");
+  const [elapsedMapTH2, setElapsedMapTH2] = useState("");
+  const [elapsedMapTH3, setElapsedMapTH3] = useState("");
+
+  const [elapsedMapTH4, setElapsedMapTH4] = useState("");
+  const [elapsedMapTH5, setElapsedMapTH5] = useState("");
+  const [elapsedMapTH6, setElapsedMapTH6] = useState("");
 
   const mergeSortGiam = (arr) => {
     if (arr.length <= 1) return arr;
@@ -74,9 +88,22 @@ function SearchComponent() {
         const suffer = response.data.sort(() => 0.5 - Math.random());
         suffer.forEach((item, index) => {
           treeTempID.insertWithID(item);
+          mapTemp.set(item.id, item);
+          for (let i = 0; i < 10; i++) {
+            if (i === 4 && item.id === 1) {
+              mapTemp1.set(new String(item.id), {
+                ...item,
+                title: "Le Quoc Thinh",
+              });
+            } else {
+              mapTemp1.set(new String(item.id), { ...item });
+            }
+          }
         });
         setTree(treeTemp);
         setTreeID(treeTempID);
+        setMap(mapTemp);
+        setMap1(mapTemp1);
         setPhotoApi(response.data);
       })
       .catch(function (error) {
@@ -116,6 +143,33 @@ function SearchComponent() {
     DfsBinaryTreeID(treeIDNotSuffer.root, 4991, setElapsedDfsTH3);
     BfsBinaryTreeID(treeIDNotSuffer.root, 4991, setElapsedBfsTH3);
   }, [treeIDNotSuffer]);
+
+  useEffect(() => {
+    if (map.size > 0) {
+      const start = window.performance.now();
+      map.get(1);
+      setElapsedMapTH1(window.performance.now() - start);
+
+      const start1 = window.performance.now();
+      map.get(5000);
+      setElapsedMapTH2(window.performance.now() - start1);
+
+      const start2 = window.performance.now();
+      map.get(4991);
+      setElapsedMapTH3(window.performance.now() - start2);
+    }
+  }, [map]);
+
+  useEffect(() => {
+    if (map1.size > 0) {
+      const start = window.performance.now();
+      map1.forEach((item, index) => {
+        if (item.title === "Le Quoc Thinh") {
+          setElapsedMapTH4(window.performance.now() - start);
+        }
+      });
+    }
+  }, [map1]);
 
   const DfsBinaryTreeID = (root, target, set) => {
     var startDfsTH2 = window.performance.now();
@@ -181,6 +235,18 @@ function SearchComponent() {
               <td>Tìm kiếm ID nhỏ nhất</td>
               <td>{elapsedBfsTH1}</td>
             </tr>
+            <tr>
+              <td>Hash Table (Map)</td>
+              <td></td>
+              <td>Tìm kiếm ID nhỏ nhất</td>
+              <td>{elapsedMapTH1}</td>
+            </tr>
+            <tr>
+              <td>Hash Table (Map)</td>
+              <td>Hash table bị collision</td>
+              <td>Tìm kiếm ID nhỏ nhất</td>
+              <td>{elapsedMapTH4}</td>
+            </tr>
           </tbody>
         </table>
         <h5 class="modal-title d-flex justify-content-start">Trường hợp 2</h5>
@@ -206,6 +272,12 @@ function SearchComponent() {
               <td>Tìm kiếm ID lớn nhất</td>
               <td>{elapsedBfsTH2}</td>
             </tr>
+            <tr>
+              <td>Hash Table (Map)</td>
+              <td></td>
+              <td>Tìm kiếm ID lớn nhất</td>
+              <td>{elapsedMapTH2}</td>
+            </tr>
           </tbody>
         </table>
         <h5 class="modal-title d-flex justify-content-start">Trường hợp 3</h5>
@@ -230,6 +302,12 @@ function SearchComponent() {
               <td>BFS</td>
               <td>Tìm kiếm ID Gần node cha</td>
               <td>{elapsedBfsTH3}</td>
+            </tr>
+            <tr>
+              <td>Hash Table (Map)</td>
+              <td></td>
+              <td>Tìm kiếm ID Gần node cha</td>
+              <td>{elapsedMapTH3}</td>
             </tr>
           </tbody>
         </table>
