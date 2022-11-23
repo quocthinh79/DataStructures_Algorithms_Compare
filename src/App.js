@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import SearchComponent from "./component/search/SearchComponent";
 import Array from "./array/Array";
 import LinkedListWithArrayComponent from "./component/linkedListWithArray/LinkedListWithArrayComponent";
+import SortTH1WithArray from "./component/sort/SortTH1WithArray";
 
 const {
   LinkedList,
@@ -46,44 +47,6 @@ function App() {
     return array;
   };
 
-  const bubbleSortLinkedList = (linkedList, type = "GIAMDAN") => {
-    let sentinel = new LinkedListNode(0, linkedList._head);
-    let dirty = true;
-    while (dirty) {
-      dirty = false;
-      let node = sentinel;
-      while (node._next && node._next._next) {
-        let first = node._next;
-        let second = first._next;
-        switch (type) {
-          case "GIAMDAN":
-            if (first._value.id < second._value.id) {
-              // swap
-              node._next = second;
-              first._next = second._next;
-              second._next = first;
-              dirty = true;
-            }
-            break;
-          case "TANGDAN":
-            if (first._value.id > second._value.id) {
-              // swap
-              node._next = second;
-              first._next = second._next;
-              second._next = first;
-              dirty = true;
-            }
-            break;
-          default:
-            break;
-        }
-        node = node._next;
-      }
-    }
-
-    linkedList._head = sentinel._next;
-  };
-
   const bubbleSortStack = (s1, type = "GIAMDAN") => {
     const s2 = new Stack();
     switch (type) {
@@ -116,83 +79,6 @@ function App() {
     }
   };
 
-  const selectionSortLinkedList = (head, type = "GIAMDAN") => {
-    switch (type) {
-      case "GIAMDAN":
-        var temp = head._head;
-        while (temp) {
-          var min = temp;
-          var r = temp._next;
-          while (r) {
-            if (min._value.id < r._value.id) min = r;
-            r = r._next;
-          }
-          var x = temp._value.id;
-          temp._value.id = min._value.id;
-          min._value.id = x;
-          temp = temp._next;
-        }
-        break;
-      case "TANGDAN":
-        var temp = head._head;
-        while (temp) {
-          var min = temp;
-          var r = temp._next;
-          while (r) {
-            if (min._value.id > r._value.id) min = r;
-            r = r._next;
-          }
-          var x = temp._value.id;
-          temp._value.id = min._value.id;
-          min._value.id = x;
-          temp = temp._next;
-        }
-        break;
-      default:
-        break;
-    }
-  };
-
-  function sortedMergeLinkedList(a, b) {
-    var result = null;
-    if (a == null) return b;
-    if (b == null) return a;
-    if (a.val <= b.val) {
-      result = a;
-      result.next = sortedMergeLinkedList(a.next, b);
-    } else {
-      result = b;
-      result.next = sortedMergeLinkedList(a, b.next);
-    }
-    return result;
-  }
-
-  function mergeSortLinkedList(h) {
-    if (h == null || h.next == null) {
-      return h;
-    }
-    var middle = getMiddleLinkedList(h);
-    var nextofmiddle = middle.next;
-    middle.next = null;
-    var left = mergeSortLinkedList(h);
-    var right = mergeSortLinkedList(nextofmiddle);
-    var sortedlist = sortedMergeLinkedList(left, right);
-    return sortedlist;
-  }
-
-  function getMiddleLinkedList(head) {
-    if (head == null) return head;
-
-    var slow = head,
-      fast = head;
-
-    while (fast.next != null && fast.next.next != null) {
-      slow = slow.next;
-      fast = fast.next.next;
-    }
-    return slow;
-  }
-
   return (
     <div className="App">
       <Router>
@@ -204,6 +90,13 @@ function App() {
               type="button"
             >
               Sort
+            </Link>
+            <Link
+              to={`/sort-th1-with-array`}
+              className="btn btn-primary me-md-2"
+              type="button"
+            >
+              Sort TH1 With Array
             </Link>
             <Link
               to={`/search`}
@@ -224,6 +117,11 @@ function App() {
         <Routes>
           <Route exact path="/" element={<></>}></Route>
           <Route exact path="/sort" element={<SortComponent />}></Route>
+          <Route
+            exact
+            path="/sort-th1-with-array"
+            element={<SortTH1WithArray />}
+          ></Route>
           <Route exact path="/search" element={<SearchComponent />}></Route>
           <Route
             exact

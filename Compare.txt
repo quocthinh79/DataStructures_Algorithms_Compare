@@ -1,0 +1,3 @@
+Bubble Sort -> Dùng trong trường hợp mảng đã được sắp xếp một phần
+Selection Sort -> Dùng trong trường hợp mảng bị xáo trộn ngẫu nhiên
+Merge Sort -> Thích hợp dùng với linked list
